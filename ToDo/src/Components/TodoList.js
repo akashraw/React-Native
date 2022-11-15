@@ -7,10 +7,14 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
+  FlatList,
+  Pressable,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import TodoTask from './TodoTask';
 
-function TodoList({navigation}) { 
+function TodoList() {
+  //
   const [task, setTask] = useState();
   const [taskItem, setTaskItem] = useState([]);
 
@@ -19,24 +23,51 @@ function TodoList({navigation}) {
     setTaskItem([...taskItem, task]);
     setTask(null);
   };
-  const delItem = (index) => {
+
+  const delItem = index => {
     let taskCopy = [...taskItem];
     taskCopy.splice(index, 1);
     setTaskItem(taskCopy);
   };
+  const Item = ({item, onPress}) => {
+    <View style={styles.taskWrapper}>
+      <View style={styles.tasks}>
+        <View style={styles.circle}></View>
+        <Text style={styles.text}>{item.text}</Text>
+      </View>
+      <TouchableOpacity style={styles.taskRight}>
+        <Pressable  onPress={() => delItem(index)}>
+          <Icon name="trash" color={'#E97777'} size={20} />
+        </Pressable>
+      </TouchableOpacity>
+    </View>;
+  };
+  const renderItems = ({item}) => {
+    return <Item item={item} ></Item>;
+  };
+
   return (
     <View style={styles.bg}>
       <View style={styles.contentWrapper}>
         <Text style={styles.head}>Todo List</Text>
-        <View>
+        <FlatList
+          data={taskItem}
+          renderItem={renderItems}
+        />
+
+        {/* <View>
           {taskItem.map((item, index) => {
             return (
-              <TouchableOpacity key={index} onPress={() => navigation.push('Details')}>
-                <TodoTask  text={item} />
+              <TouchableOpacity
+                key={index}
+                // onPress={() => navigation.push('Details')}>
+                // onPress={() => delItem(index)}
+              >
+                <TodoTask keys={index} text={item} />
               </TouchableOpacity>
             );
           })}
-        </View>
+        </View> */}
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -82,7 +113,7 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 15,
     paddingHorizontal: 15,
-    backgroundColor: '#FFF',
+    backgroundColor: '#CFD2CF',
     borderRadius: 60,
     borderColor: '#C0C0C0',
     borderWidth: 1,
@@ -91,7 +122,7 @@ const styles = StyleSheet.create({
   addWrap: {
     width: 60,
     height: 60,
-    backgroundColor: '#FFF',
+    backgroundColor: '#CFD2CF',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -99,6 +130,35 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   addText: {},
+  taskWrapper: {
+    backgroundColor: '#CFD2CF',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  tasks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  taskRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  circle: {
+    width: 12,
+    height: 12,
+    borderColor: '#55BCF6',
+    borderWidth: 2,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  text: {
+    fontSize: 16,
+  },
 });
 
 export default TodoList;

@@ -12,12 +12,12 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={Hello}
-          options={{title: 'Welcome'}}
+         
         />
         <Stack.Screen
           name="Count"
           component={Count}
-          options={{title: 'Counting Presses'}}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
