@@ -15,13 +15,14 @@ import TodoTask from './TodoTask';
 
 function TodoList() {
   //
-  const [task, setTask] = useState();
-  const [taskItem, setTaskItem] = useState([]);
+  const [task, setTask] = useState({id:Number, val:''});
+  const [taskItem, setTaskItem] = useState([{id: Number, value:''}]);
 
   const addItem = () => {
     Keyboard.dismiss();
-    setTaskItem([...taskItem, task]);
-    setTask(null);
+    setTaskItem([{...taskItem, task}]);
+    setTask(null)
+    console.log(taskItem)
   };
 
   const delItem = index => {
@@ -36,24 +37,25 @@ function TodoList() {
         <Text style={styles.text}>{item.text}</Text>
       </View>
       <TouchableOpacity style={styles.taskRight}>
-        <Pressable  onPress={() => delItem(index)}>
+        <Pressable onPress={() => delItem(index)}>
           <Icon name="trash" color={'#E97777'} size={20} />
         </Pressable>
       </TouchableOpacity>
     </View>;
   };
   const renderItems = ({item}) => {
-    return <Item item={item} ></Item>;
+    return <Item item={item}></Item>;
   };
 
   return (
     <View style={styles.bg}>
       <View style={styles.contentWrapper}>
         <Text style={styles.head}>Todo List</Text>
-        <FlatList
-          data={taskItem}
-          renderItem={renderItems}
-        />
+        <View>
+          <FlatList data={taskItem} renderItem={renderItems}
+           keyExtractor={(item)=>item.keys}
+           />
+        </View>
 
         {/* <View>
           {taskItem.map((item, index) => {
