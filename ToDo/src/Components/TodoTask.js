@@ -28,7 +28,7 @@ export default TodoTask;
 
 const styles = StyleSheet.create({
   taskWrapper: {
-    backgroundColor: '#CFD2CF',
+    backgroundColor: '#787A91',
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,

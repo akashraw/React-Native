@@ -7,15 +7,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
-  FlatList,
-  Pressable,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-function TodoList({navigation}) {
-  // //Data object
-  // const DATA = [{tasks: '1'}, {tasks: 'hello'}];
-  //
+import TodoTask from './TodoTask';
+function TodoMap({navigation}) {
   const [task, setTask] = useState();
   const [taskItem, setTaskItem] = useState([]);
 
@@ -31,32 +25,23 @@ function TodoList({navigation}) {
     taskCopy.splice(index, 1);
     setTaskItem(taskCopy);
   };
-  const Item = ({item, index}) => {
-    return (
-      <View style={styles.taskWrapper}>
-        <View style={styles.tasks}>
-          <View style={styles.circle}></View>
-          <Text style={styles.text}>{item}</Text>
-        </View>
-        <TouchableOpacity
-          key={index}
-          onPress={() => delItem(index)}
-          style={styles.taskRight}>
-          <Icon name="trash" color={'#E97777'} size={24} />
-        </TouchableOpacity>
-      </View>
-    );
-  };
-  const renderItems = ({item, index}) => {
-    return <Item item={item} index={index}></Item>;
-  };
 
   return (
     <View style={styles.bg}>
       <View style={styles.contentWrapper}>
-        <Text style={styles.head}>Todo Lists</Text>
-        <View style={styles.second}>
-          <FlatList data={taskItem} renderItem={renderItems} />
+        <Text style={styles.head}>Todo Map Lists</Text>
+
+        <View>
+          {taskItem.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                // onPress={() => navigation.push('Details')}>
+                onPress={() => delItem(index)}>
+                <TodoTask keys={index} text={item} />
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
       <View style={styles.writeTask}>
@@ -163,4 +148,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TodoList;
+export default TodoMap;
